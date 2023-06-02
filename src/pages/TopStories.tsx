@@ -1,10 +1,22 @@
-import { Link } from 'wouter'
+import useSWR from 'swr'
+import { Story } from '../components/Story'
+import { getTopStories } from '../services/hacker-news'
+import { list } from './TopStories.css'
 
 export default function TopStoriesPage() {
+  const { data, isLoading } = useSWR('stories', () => getTopStories(1, 3))
   return (
     <>
-      <h1>Top stories</h1>
-      <Link href='/article/1'>Article 1</Link>
+      <ul className={list}>
+        {isLoading && <li>Loading...</li>}
+        {data?.map((id: number, index: number) => {
+          return (
+            <li key={id}>
+              <Story id={id} index={index} />
+            </li>
+          )
+        })}
+      </ul>
     </>
   )
 }
