@@ -11,7 +11,7 @@ function App() {
       <Header />
 
       <main>
-        <Suspense fallback='Loading...'>
+        <Suspense>
           <Route path='/' component={TopStoriesPage} />
           <Route path='/article/:id' component={DetailPage} />
         </Suspense>

@@ -1,7 +1,8 @@
 import { style } from '@vanilla-extract/css'
 
 export const story = style({
-  color: '#374151'
+  color: '#374151',
+  marginBottom: '8px'
 })
 
 export const storyTitle = style({
@@ -14,7 +15,7 @@ export const storyHeader = style({
   display: 'flex',
   alignItems: 'center',
   gap: '8px',
-  marginBottom: '4px',
+  marginBottom: '2px',
   lineHeight: '24px'
 })
 

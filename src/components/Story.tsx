@@ -9,6 +9,7 @@ import {
   storyLink,
   storyTitle
 } from './Story.css'
+import { StoryLoader } from './StoryLoader'
 
 interface Props {
   id: number
@@ -19,7 +20,7 @@ export const Story: FC<Props> = ({ id, index }) => {
   const { data, isLoading } = useSWR(`story/${id}`, () => getItemInfo(id))
 
   if (isLoading) {
-    return <span>Loading...</span>
+    return <StoryLoader />
   }
 
   const { by, kids, score, title, url } = data
