@@ -2,6 +2,7 @@ import { type FC } from 'react'
 import useSWR from 'swr'
 import { Link } from 'wouter'
 import { getItemInfo } from '../services/hacker-news'
+import { getRelativeTime } from '../utils/getRelativeTime'
 import {
   story,
   storyFooter,
@@ -23,8 +24,9 @@ export const Story: FC<Props> = ({ id, index }) => {
     return <StoryLoader />
   }
 
-  const { by, kids, score, title, url } = data
+  const { by, kids, score, title, url, time } = data
 
+  const elapsedTime = getRelativeTime(time)
   let domain = ''
   try {
     domain = new URL(url).hostname.replace('www.', '')
@@ -57,7 +59,9 @@ export const Story: FC<Props> = ({ id, index }) => {
           by {by}
         </Link>
         <Link className={storyLink} href={`/article/${id}`}>
-          6 hours ago
+          <time dateTime={new Date(time * 1000).toISOString()}>
+            {elapsedTime}
+          </time>
         </Link>
         <Link className={storyLink} href={`/article/${id}`}>
           {kids?.length ?? 0} comments

@@ -1,14 +1,22 @@
-import useSWR from 'swr'
+import useSWRInfinite from 'swr/infinite'
 import { Story } from '../components/Story'
 import { getTopStories } from '../services/hacker-news'
-import { list } from './TopStories.css'
+import { infinityScrollButton, list } from './TopStories.css'
 
 export default function TopStoriesPage() {
-  const { data } = useSWR('stories', () => getTopStories(1, 10))
+  const { data, size, setSize } = useSWRInfinite(
+    index => `stories/${index + 1}`,
+    key => {
+      const [, page] = key.split('/')
+      return getTopStories(Number(page), 5)
+    }
+  )
+
+  const stories = data?.flat()
   return (
     <>
       <ul className={list}>
-        {data?.map((id: number, index: number) => {
+        {stories?.map((id: number, index: number) => {
           return (
             <li key={id}>
               <Story id={id} index={index} />
@@ -16,6 +24,15 @@ export default function TopStoriesPage() {
           )
         })}
       </ul>
+
+      <button
+        className={infinityScrollButton}
+        onClick={() => {
+          setSize(size + 1)
+        }}
+      >
+        Load more
+      </button>
     </>
   )
 }
