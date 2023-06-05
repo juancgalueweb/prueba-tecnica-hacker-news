@@ -1,15 +1,12 @@
+import { type FC } from 'react'
 import useSWR from 'swr'
 import { getItemInfo } from '../services/hacker-news'
+import { type CommentProps, type ListOfCommentsProps } from '../types.d'
 import { getRelativeTime } from '../utils/getRelativeTime'
 import { CommentLoader } from './CommentLoader'
 import { FormattedText } from './FormattedText'
 
-interface ListOfCommentsProps {
-  ids: number[]
-}
-
-const Comment = (props: { id: number }) => {
-  const { id } = props
+const Comment: FC<CommentProps> = ({ id }) => {
   const { data, isLoading } = useSWR(`/comment/${id}`, () => getItemInfo(id))
 
   if (isLoading) {
@@ -37,9 +34,7 @@ const Comment = (props: { id: number }) => {
   )
 }
 
-export const ListOfComments = (props: ListOfCommentsProps) => {
-  const { ids } = props
-
+export const ListOfComments: FC<ListOfCommentsProps> = ({ ids }) => {
   return (
     <ul style={{ listStyle: 'none' }}>
       {ids.map((id: number) => (

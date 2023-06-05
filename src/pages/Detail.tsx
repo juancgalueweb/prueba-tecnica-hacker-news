@@ -3,17 +3,7 @@ import useSWR from 'swr'
 import { CommentLoader } from '../components/CommentLoader'
 import { ListOfComments } from '../components/ListOfComments'
 import { getItemInfo } from '../services/hacker-news'
-
-interface DetailPageProps {
-  params: {
-    id: string
-  }
-}
-
-interface dataProps {
-  kids: number[]
-  title: string
-}
+import { type DataProps, type DetailPageProps } from '../types.d'
 
 export default function DetailPage(props: DetailPageProps) {
   const {
@@ -24,7 +14,7 @@ export default function DetailPage(props: DetailPageProps) {
     getItemInfo(Number(id))
   )
 
-  const { kids, title }: dataProps = data ?? {}
+  const { kids, title }: DataProps = data ?? {}
   const commentIds = kids?.slice(0, 10) ?? []
 
   useEffect(() => {

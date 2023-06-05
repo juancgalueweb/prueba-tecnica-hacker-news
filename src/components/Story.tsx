@@ -2,6 +2,7 @@ import { type FC } from 'react'
 import useSWR from 'swr'
 import { Link } from 'wouter'
 import { getItemInfo } from '../services/hacker-news'
+import { type StoryProps } from '../types.d'
 import { getRelativeTime } from '../utils/getRelativeTime'
 import {
   story,
@@ -12,12 +13,7 @@ import {
 } from './Story.css'
 import { StoryLoader } from './StoryLoader'
 
-interface Props {
-  id: number
-  index: number
-}
-
-export const Story: FC<Props> = ({ id, index }) => {
+export const Story: FC<StoryProps> = ({ id, index }) => {
   const { data, isLoading } = useSWR(`story/${id}`, () => getItemInfo(id))
 
   if (isLoading) {
