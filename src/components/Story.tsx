@@ -1,16 +1,15 @@
 import { type FC } from 'react'
 import useSWR from 'swr'
-import { Link } from 'wouter'
 import { getItemInfo } from '../services/hacker-news'
+import {
+  StoryFooter,
+  StoryHeader,
+  StoryLink,
+  StoryTitle,
+  StyledArticle
+} from '../styles/StyledComponets'
 import { type StoryProps } from '../types.d'
 import { getRelativeTime } from '../utils/getRelativeTime'
-import {
-  story,
-  storyFooter,
-  storyHeader,
-  storyLink,
-  storyTitle
-} from './Story.css'
 import { StoryLoader } from './StoryLoader'
 
 export const Story: FC<StoryProps> = ({ id, index }) => {
@@ -29,40 +28,28 @@ export const Story: FC<StoryProps> = ({ id, index }) => {
   } catch {}
 
   return (
-    <article className={story}>
-      <header className={storyHeader}>
+    <StyledArticle>
+      <StoryHeader>
         <small>{index + 1}. </small>
-        <a
-          className={storyTitle}
-          href={url}
-          target='_blank'
-          rel='noreferrer noopener'
-        >
+        <StoryTitle href={url} target='_blank' rel='noreferrer noopener'>
           {title}
-        </a>
-        <a
-          className={storyLink}
-          href={url}
-          target='_blank'
-          rel='noreferrer noopener'
-        >
+        </StoryTitle>
+        <StoryLink as='a' href={url} target='_blank' rel='noreferrer noopener'>
           ({domain})
-        </a>
-      </header>
-      <footer className={storyFooter}>
+        </StoryLink>
+      </StoryHeader>
+      <StoryFooter>
         <span>{score} points</span>
-        <Link className={storyLink} href={`/article/${id}`}>
-          by {by}
-        </Link>
-        <Link className={storyLink} href={`/article/${id}`}>
+        <StoryLink href={`/article/${id}`}>by {by}</StoryLink>
+        <StoryLink href={`/article/${id}`}>
           <time dateTime={new Date(time * 1000).toISOString()}>
             {elapsedTime}
           </time>
-        </Link>
-        <Link className={storyLink} href={`/article/${id}`}>
+        </StoryLink>
+        <StoryLink href={`/article/${id}`}>
           {kids?.length ?? 0} comments
-        </Link>
-      </footer>
-    </article>
+        </StoryLink>
+      </StoryFooter>
+    </StyledArticle>
   )
 }
